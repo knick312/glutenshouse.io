@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>GLUTEN'S HOUSE</title>
+    <link rel="shortcut icon" href="#" type="image/x-icon">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/estilos.css">
+    <link rel="stylesheet" href="./css/overlay.css"> <!-- Estilos para la interfaz sobrepuesta -->
+    <script src="./js/qrcode.min.js"></script>
+    <script src="./js/sistema_recompensas.js"></script>
+    <script src="./js/formularios.js"></script>
+    <script src="./js/event_listeners.js"></script>
+</head>
+<body>
+    <header class="hero">
+        <nav class="nav container">
+            <div class="nav_logo">
+                <h2 class="nav_title">GLUTEN'S HOUSE</h2>
+            </div>
+            <ol class="nav_link nav_link--menu">
+                <li class="nav_items">
+                    <a href="./index.html" class="nav_links">Inicio</a>
+                </li>
+                <li class="nav_items">
+                    <a href="sucursales.html" class="nav_links">Sucursales</a>
+                </li>
+                <li class="nav_items">
+                    <a href="./nosotros.html" class="nav_links">Nosotros</a>
+                </li>
+                <li class="nav_items">
+                    <a href="./teamglutens.html" class="nav_links">TeamGLUTENS</a>
+                </li>
+                <li class="nav_items">
+                    <a href="./contacto.html" class="nav_links">Contacto</a>
+                </li>
+                <li class="nav_items">
+                    <a href="registro login.html" class="nav_links" id="registro-link" onclick="mostrarRegistro()">Registro</a>
+                </li>
+                <li class="nav_items">
+                    <a href="#" class="nav_links" id="login-link" onclick="mostrarLogin()">Iniciar Sesión</a>
+                </li>
+                <img src="./imagenes/close.svg" class="nav_close">
+            </ol>
+            <div class="nav_menu">
+                <img src="./imagenes/menu.svg" class="nav_img">
+            </div>
+        </nav>
+    </header>
+    <section class="hero_container container">
+        <h1 class="hero_title">PROXIMAMENTE</h1>
+        <p class="hero_paragraph">Próximamente</p>
+    </section>
+    <!-- Contenedor del video y la imagen de fondo -->
+    <div class="video-container">
+        <video width="1600" height="480" muted autoplay loop>
+            <source src="./videos/aibar_glutens.mp4" type="video/mp4">
+        </video>
+        <div class="background-image"></div>
+    </div>
+    <!-- Pie de página -->
+    <footer>
+        Derechos reservados &copy; 2023<br>
+        Diseñado por: NickMundoart
+        <p>&copy; 2018 Línea de Código</p>
+        <ul>
+            <li><a href="/acerca-de">Acerca de</a></li>
+            <li><a href="/conectar">Conectar</a></li>
+            <li><a href="/rrss">Redes Sociales</a></li>
+        </ul>
+    </footer>
+    <!-- Fin del pie de página -->
+    
+    <!-- Interfaz de inicio de sesión sobrepuesta -->
+    <div class="overlay" id="login-overlay">
+        <div class="overlay-content">
+            <span class="close" id="login-close" onclick="cerrarFormularios()">&times;</span>
+            <h2>Iniciar Sesión</h2>
+            <form id="login-form" onsubmit="iniciarSesion(); return true;">
+                <label for="correo">Correo Electrónico:</label>
+                <input type="email" id="correo" name="correo" required>
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

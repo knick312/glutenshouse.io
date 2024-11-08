@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+<div id="qrcode"></div>
+
+<a id='qrdl' hidden>Download</a>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <title>Dashboard de Usuario</title>
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/estilos.css">
+    <link rel="stylesheet" href="./css/overlay.css"> <!-- Estilos para la interfaz sobrepuesta -->
+    <link rel="stylesheet" href="./css/cliente.css">
+     <script src="./js/sistema_recompensas.js"></script>
+        <script src="./js/qrcode.min.js"></script>
+        <script src="./js/formularios.js"></script>
+        <script src="./js/event_listeners.js"></script>
+    </head>
+</head>
+    
+<body>
+    <div class="container">
+        <div class="interaccion-recompensas">
+            <h2>Sistema de Recompensas</h2>
+            <div class="cliente-info">
+                <p>Estás en el nivel: <span id="nivel-actual">Verde</span></p>
+                <p>Tienes <span id="estrellas-actuales">0</span> estrellas</p>
+            </div>
+            <div class="acciones">
+                <button onclick="mostrarCompraForm()">Realizar Compra</button>
+                <button onclick="mostrarCanjeForm()">Canjear Recompensa</button>
+                <button onclick="mostrarCodigoQR()">Mostrar Código QR</button>
+            </div>
+            <p id="resultado-interaccion"></p>
+            <!-- Agregar el siguiente contenedor para mostrar el código QR -->
+            <div id="codigo-qr-container"></div>
+        </div>
+        <div class="dashboard">
+            <h3>Panel de Control</h3>
+            <ul>
+                <li><a href="#" onclick="mostrarPerfil()">Perfil</a></li>
+                <li><a href="#" onclick="mostrarHistorial()">Historial de Compras</a></li>
+                <li><a href="#" onclick="mostrarAmigos()">Amigos</a></li>
+                <!-- Agrega más opciones de panel de control según tus necesidades -->
+            </ul>
+        </div>
+        <div class="perfil">
+            <h3>Mi Perfil</h3>
+            <form id="perfil-form">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" value="Nombre del Cliente">
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="cliente@example.com">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" value="123-456-7890">
+                <button type="submit">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+    <div class="overlay" id="compra-overlay">
+        <div class="formulario-contenedor">
+            <h3>Realizar Compra</h3>
+            <input type="number" id="monto-compra" placeholder="Monto de compra">
+            <button onclick="realizarCompra()">Realizar Compra</button>
+            <span class="cerrar-formulario" onclick="ocultarCompraForm()">Cerrar</span>
+        </div>
+    </div>
+    <div class="overlay" id="canje-overlay">
+        <div class="formulario-contenedor">
+            <h3>Canjear Recompensa</h3>
+            <select id="recompensa-select">
+                <option value="Bebida Gratis">Bebida Gratis</option>
+                <!-- Agrega más opciones de recompensas según tus necesidades -->
+            </select>
+            <button onclick="canjearRecompensa()">Canjear</button>
+            <span class="cerrar-formulario" onclick="ocultarCanjeForm()">Cerrar</span>
+        </div>
+    </div>
+    <div class="overlay" id="codigo-qr-overlay">
+        <div class="codigo-qr-contenedor">
+            <h3>Código QR de la Tarjeta</h3>
+            <div id="codigo-qr-img"></div> 
+            <span class="cerrar-formulario" onclick="ocultarCodigoQROverlay()">Cerrar</span>
+        </div>
+    </div>
+    <script src="./js/sistema_recompensas.js"></script>
+    <script src="cliente.js"></script>
+    <script src="./sql/basebeta.sql"></script>
+</body>
+</html>
