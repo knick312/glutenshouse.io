@@ -1,7 +1,9 @@
-// Módulo de Cliente
+// Módulo Cliente
 class Cliente {
-    constructor(nombre) {
+    constructor(nombre, correo, contrasena) {
         this.nombre = nombre;
+        this.correo = correo;
+        this.contrasena = contrasena;
         this.estrellas = 0;
         this.nivel = "Verde"; // Nivel inicial
         this.tarjeta = null;
@@ -10,13 +12,7 @@ class Cliente {
     realizarCompra(monto) {
         const estrellasGanadas = monto; // 1 estrella por cada $1 gastado
         this.estrellas += estrellasGanadas;
-
-        // Comprobar si el cliente alcanza un nuevo nivel
-        if (this.estrellas >= 50 && this.nivel === "Verde") {
-            this.nivel = "Oro";
-        } else if (this.estrellas >= 100 && this.nivel === "Oro") {
-            this.nivel = "Platino";
-        }
+        this.actualizarNivel();
     }
 
     canjearRecompensa(cantidadPuntos) {
@@ -27,97 +23,88 @@ class Cliente {
             return "No tienes suficientes puntos para esta recompensa";
         }
     }
+
+    actualizarNivel() {
+        if (this.estrellas >= 100) {
+            this.nivel = "Platino";
+        } else if (this.estrellas >= 50) {
+            this.nivel = "Oro";
+        } else {
+            this.nivel = "Verde";
+        }
+    }
 }
 
-// Módulo de Interfaz
-const Interfaz = (function () {
-    const overlay = document.getElementById("overlay");
+// Array para almacenar clientes registrados
+let clientesRegistrados = [];
+let clienteActual = null;
 
-    function mostrarFormulario(overlayId) {
-        overlay.style.display = "flex";
-        document.getElementById(overlayId).style.display = "block";
+// Funciones de Interfaz
+function mostrarFormulario(overlayId) {
+    document.getElementById(overlayId).style.display = "flex";
+}
+
+function cerrarFormularios() {
+    document.getElementById("login-overlay").style.display = "none";
+    document.getElementById("registro-overlay").style.display = "none";
+}
+
+// Función para registrar un nuevo cliente
+function registrarCliente() {
+    const nombre = document.getElementById("nombre").value;
+    const correo = document.getElementById("correo-registro").value;
+    const contrasena = document.getElementById("contrasena-registro").value;
+
+    // Crear una nueva instancia del cliente
+    const nuevoCliente = new Cliente(nombre, correo, contrasena);
+    clientesRegistrados.push(nuevoCliente);
+
+    alert("Cliente registrado exitosamente.");
+    cerrarFormularios();
+}
+
+// Función para iniciar sesión
+function iniciarSesion() {
+    const correo = document.getElementById("correo").value;
+    const contrasena = document.getElementById("contrasena").value;
+
+    // Buscar el cliente registrado con ese correo
+    const cliente = clientesRegistrados.find(c => c.correo === correo && c.contrasena === contrasena);
+
+    if (cliente) {
+        alert(`Bienvenido, ${cliente.nombre}!`);
+        clienteActual = cliente;
+        mostrarSistemaPuntos();
+        cerrarFormularios();
+    } else {
+        alert("Correo o contraseña incorrectos.");
     }
+}
 
-    function ocultarFormulario(overlayId) {
-        overlay.style.display = "none";
-        document.getElementById(overlayId).style.display = "none";
-    }
+// Función para mostrar el sistema de puntos
+function mostrarSistemaPuntos() {
+    const sistemaPuntos = document.getElementById("sistema-puntos");
+    sistemaPuntos.style.display = "block";
+}
 
-    function mostrarSistemaPuntos() {
-        const sistemaPuntos = document.getElementById("sistema-puntos");
-        sistemaPuntos.style.display = "block";
-        document.getElementById("login-link").style.display = "none";
-        document.getElementById("registro-link").style.display = "none";
-        document.getElementById("logout-link").style.display = "inline";
-    }
-
-    function cerrarSesion() {
-        document.getElementById("sistema-puntos").style.display = "none";
-        document.getElementById("login-link").style.display = "inline";
-        document.getElementById("registro-link").style.display = "inline";
-        document.getElementById("logout-link").style.display = "none";
-    }
-
-    return {
-        mostrarFormulario,
-        ocultarFormulario,
-        mostrarSistemaPuntos,
-        cerrarSesion,
-    };
-})();
-
-// Módulo de Event Listeners
-const EventListeners = (function () {
-    const registroLink = document.getElementById("registro-link");
-    const loginLink = document.getElementById("login-link");
-    const logoutLink = document.getElementById("logout-link");
-    const registroClose = document.getElementById("registro-close");
-    const loginClose = document.getElementById("login-close");
-
-    registroLink.addEventListener("click", () => {
-        Interfaz.mostrarFormulario("registro-overlay");
-    });
-
-    loginLink.addEventListener("click", () => {
-        Interfaz.mostrarFormulario("login-overlay");
-    });
-
-    registroClose.addEventListener("click", () => {
-        Interfaz.ocultarFormulario("registro-overlay");
-    });
-
-    loginClose.addEventListener("click", () => {
-        Interfaz.ocultarFormulario("login-overlay");
-    });
-
-    // Módulo del Sistema de Recompensas (añadir a sistema_recompensas.js)
-
+// Función para mostrar QR
 function mostrarCodigoQR() {
-    const contenedorQR = document.getElementById("codigo-qr-container");
-    
-    // Generar el código QR
-    const data = "https://www.glutenshouse.com/cliente/" + obtenerClienteId(); // Asegúrate de tener alguna forma de obtener un ID único o URL de cliente.
-    
-    // Limpiar el contenedor antes de generar el nuevo QR
-    contenedorQR.innerHTML = ""; 
-
-    // Generar el código QR en el contenedor
-    QRCode.toCanvas(contenedorQR, data, function (error) {
-        if (error) console.error(error);
-        console.log("Código QR generado exitosamente");
+    const codigoQR = new QRCode(document.getElementById("codigo-qr-img"), {
+        text: `Nombre: ${clienteActual.nombre}\nNivel: ${clienteActual.nivel}\nEstrellas: ${clienteActual.estrellas}`,
+        width: 128,
+        height: 128,
     });
-
-    // Mostrar el contenedor con el QR
-    contenedorQR.style.display = "block";
+    document.getElementById("codigo-qr-overlay").style.display = "flex";
 }
 
-function obtenerClienteId() {
-    // Esta función debe devolver un ID único de cliente o cualquier dato que desees mostrar en el QR
-    return "123456"; // Esto es un ejemplo, reemplázalo por la lógica que necesites.
+// Cerrar el overlay del QR
+function cerrarCodigoQR() {
+    document.getElementById("codigo-qr-overlay").style.display = "none";
 }
 
-
-    logoutLink.addEventListener("click", () => {
-        Interfaz.cerrarSesion();
-    });
-})();
+// Evento para cerrar sesión
+function cerrarSesion() {
+    clienteActual = null;
+    document.getElementById("sistema-puntos").style.display = "none";
+    alert("Sesión cerrada.");
+}
