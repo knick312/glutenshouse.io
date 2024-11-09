@@ -1,36 +1,39 @@
-// formularios.js
-// Funciones para mostrar y ocultar formularios
-function mostrarRegistro() {
-    document.getElementById('registro-overlay').style.display = 'block';
-    document.getElementById('login-overlay').style.display = 'none';
-}
+const Interfaz = (function () {
+    const overlay = document.getElementById("overlay");
 
-function cerrarFormularios() {
-    document.getElementById('registro-overlay').style.display = 'none';
-    document.getElementById('login-overlay').style.display = 'none';
-}
-
-function registrarUsuario() {
-    var nombre = document.getElementById('nombre').value;
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
-    var confirmPassword = document.getElementById('confirm-password').value;
-
-    if (password !== confirmPassword) {
-        alert("Las contraseñas no coinciden");
-        return;
+    // Muestra el formulario flotante
+    function mostrarFormulario(overlayId) {
+        overlay.style.display = "flex";
+        document.getElementById(overlayId).style.display = "block";
     }
 
-    // Lógica para manejar el registro (por ejemplo, almacenar en localStorage)
-    console.log('Usuario registrado:', { nombre, email });
-    cerrarFormularios();
-}
+    // Oculta el formulario flotante
+    function ocultarFormulario(overlayId) {
+        overlay.style.display = "none";
+        document.getElementById(overlayId).style.display = "none";
+    }
 
-function iniciarSesion() {
-    var correo = document.getElementById('correo').value;
-    var contrasena = document.getElementById('contrasena').value;
+    // Muestra el sistema de puntos al iniciar sesión
+    function mostrarSistemaPuntos() {
+        const sistemaPuntos = document.getElementById("sistema-puntos");
+        sistemaPuntos.style.display = "block"; // Muestra el sistema de recompensas
+        document.getElementById("login-link").style.display = "none"; // Oculta "Iniciar sesión"
+        document.getElementById("registro-link").style.display = "none"; // Oculta "Registro"
+        document.getElementById("logout-link").style.display = "inline"; // Muestra "Cerrar sesión"
+    }
 
-    // Lógica para manejar el inicio de sesión (por ejemplo, verificar en localStorage)
-    console.log('Usuario inició sesión:', { correo });
-    cerrarFormularios();
-}
+    // Cierra la sesión y restablece la vista inicial
+    function cerrarSesion() {
+        document.getElementById("sistema-puntos").style.display = "none"; // Oculta sistema de puntos
+        document.getElementById("login-link").style.display = "inline"; // Muestra "Iniciar sesión"
+        document.getElementById("registro-link").style.display = "inline"; // Muestra "Registro"
+        document.getElementById("logout-link").style.display = "none"; // Oculta "Cerrar sesión"
+    }
+
+    return {
+        mostrarFormulario,
+        ocultarFormulario,
+        mostrarSistemaPuntos,
+        cerrarSesion
+    };
+})();
