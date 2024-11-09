@@ -28,3 +28,25 @@ body {
     color: white;
     font-size: 16px;
 }
+
+/* Estilos de fondo de video */
+.video-container {
+    position: relative;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('imagenes/your-background-image.jpg'); /* Cambia por la imagen que quieras */
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+}
