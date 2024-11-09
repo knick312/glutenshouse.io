@@ -20,7 +20,6 @@ class Cliente {
     }
 
     canjearRecompensa(cantidadPuntos) {
-        // Definir las reglas para canjear recompensas
         if (this.estrellas >= cantidadPuntos) {
             this.estrellas -= cantidadPuntos;
             return "Recompensa canjeada";
@@ -36,61 +35,34 @@ const Interfaz = (function () {
 
     function mostrarFormulario(overlayId) {
         overlay.style.display = "flex";
-        const formulario = document.getElementById(overlayId);
-        if (formulario) {
-            formulario.style.display = "block";
-            formulario.addEventListener("submit", guardarCambiosPerfil);
-        }
+        document.getElementById(overlayId).style.display = "block";
     }
 
     function ocultarFormulario(overlayId) {
         overlay.style.display = "none";
-        const formulario = document.getElementById(overlayId);
-        if (formulario) {
-            formulario.style.display = "none";
-        }
+        document.getElementById(overlayId).style.display = "none";
     }
 
-    function guardarCambiosPerfil(event) {
-        event.preventDefault();
-        const nombre = document.getElementById("nombre").value;
-        const email = document.getElementById("email").value;
-        const telefono = document.getElementById("telefono").value;
-
-        // Aquí puedes realizar una solicitud para guardar los cambios en el perfil (por ejemplo, a través de una API)
-
-        // Luego, puedes actualizar la información en la interfaz si es necesario
-        // Ejemplo:
-        document.getElementById("nombre-actual").textContent = nombre;
-        document.getElementById("email-actual").textContent = email;
-        document.getElementById("telefono-actual").textContent = telefono;
-
-        // Oculta el formulario
-        ocultarFormulario("perfil-form");
+    function mostrarSistemaPuntos() {
+        const sistemaPuntos = document.getElementById("sistema-puntos");
+        sistemaPuntos.style.display = "block";
+        document.getElementById("login-link").style.display = "none";
+        document.getElementById("registro-link").style.display = "none";
+        document.getElementById("logout-link").style.display = "inline";
     }
 
-    function mostrarCodigoQR() {
-        // Mostrar el código QR de la tarjeta actual
-        const tarjeta = usuario_ejemplo.tarjeta;
-        if (tarjeta) {
-            // Usamos la librería qrcode.min.js para generar el código QR
-            const qr = new QRCode(document.getElementById("codigo-qr-container"), {
-                text: `Tarjeta: ${tarjeta.numero}`,
-                width: 128,
-                height: 128
-            });
-
-            // Mostramos el overlay
-            mostrarOverlay('codigo-qr-overlay');
-        } else {
-            actualizarResultadoInteraccion('No se ha emitido una tarjeta aún.');
-        }
+    function cerrarSesion() {
+        document.getElementById("sistema-puntos").style.display = "none";
+        document.getElementById("login-link").style.display = "inline";
+        document.getElementById("registro-link").style.display = "inline";
+        document.getElementById("logout-link").style.display = "none";
     }
 
     return {
         mostrarFormulario,
         ocultarFormulario,
-        mostrarCodigoQR,
+        mostrarSistemaPuntos,
+        cerrarSesion,
     };
 })();
 
@@ -98,10 +70,9 @@ const Interfaz = (function () {
 const EventListeners = (function () {
     const registroLink = document.getElementById("registro-link");
     const loginLink = document.getElementById("login-link");
+    const logoutLink = document.getElementById("logout-link");
     const registroClose = document.getElementById("registro-close");
     const loginClose = document.getElementById("login-close");
-    const perfilLink = document.getElementById("perfil-link");
-    const codigoQRButton = document.getElementById("codigo-qr-button");
 
     registroLink.addEventListener("click", () => {
         Interfaz.mostrarFormulario("registro-overlay");
@@ -119,11 +90,7 @@ const EventListeners = (function () {
         Interfaz.ocultarFormulario("login-overlay");
     });
 
-    perfilLink.addEventListener("click", () => {
-        Interfaz.mostrarFormulario("perfil-form");
-    });
-
-    codigoQRButton.addEventListener("click", () => {
-        Interfaz.mostrarCodigoQR();
+    logoutLink.addEventListener("click", () => {
+        Interfaz.cerrarSesion();
     });
 })();
