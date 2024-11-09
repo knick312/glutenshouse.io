@@ -90,6 +90,33 @@ const EventListeners = (function () {
         Interfaz.ocultarFormulario("login-overlay");
     });
 
+    // Módulo del Sistema de Recompensas (añadir a sistema_recompensas.js)
+
+function mostrarCodigoQR() {
+    const contenedorQR = document.getElementById("codigo-qr-container");
+    
+    // Generar el código QR
+    const data = "https://www.glutenshouse.com/cliente/" + obtenerClienteId(); // Asegúrate de tener alguna forma de obtener un ID único o URL de cliente.
+    
+    // Limpiar el contenedor antes de generar el nuevo QR
+    contenedorQR.innerHTML = ""; 
+
+    // Generar el código QR en el contenedor
+    QRCode.toCanvas(contenedorQR, data, function (error) {
+        if (error) console.error(error);
+        console.log("Código QR generado exitosamente");
+    });
+
+    // Mostrar el contenedor con el QR
+    contenedorQR.style.display = "block";
+}
+
+function obtenerClienteId() {
+    // Esta función debe devolver un ID único de cliente o cualquier dato que desees mostrar en el QR
+    return "123456"; // Esto es un ejemplo, reemplázalo por la lógica que necesites.
+}
+
+
     logoutLink.addEventListener("click", () => {
         Interfaz.cerrarSesion();
     });
