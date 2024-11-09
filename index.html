@@ -48,16 +48,22 @@
             </div>
         </nav>
     </header>
+
+    <!-- Sección Hero de la página -->
     <section class="hero_container container">
         <h1 class="hero_title">PROXIMAMENTE</h1>
         <p class="hero_paragraph">Próximamente</p>
     </section>
+
+    <!-- Contenedor del video y la imagen de fondo -->
     <div class="video-container">
         <video width="1600" height="480" muted autoplay loop>
             <source src="./videos/aibar_glutens.mp4" type="video/mp4">
         </video>
         <div class="background-image"></div>
     </div>
+
+    <!-- Pie de página -->
     <footer>
         Derechos reservados &copy; 2023<br>
         Diseñado por: NickMundoart
@@ -98,6 +104,27 @@
                 <input type="password" id="contrasena-registro" name="contrasena-registro" required>
                 <button type="submit">Registrar</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Interfaz del Sistema de Puntos -->
+    <div class="overlay" id="sistema-puntos" style="display: none;">
+        <div class="overlay-content">
+            <h2>Mi Sistema de Puntos</h2>
+            <p id="nombre-usuario">Nombre: <span id="nombre-usuario-span"></span></p>
+            <p id="nivel-usuario">Nivel: <span id="nivel-usuario-span"></span></p>
+            <p id="estrellas-usuario">Estrellas: <span id="estrellas-usuario-span"></span></p>
+            <button onclick="mostrarCodigoQR()">Mostrar QR</button>
+            <button onclick="cerrarSesion()">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <!-- Interfaz QR -->
+    <div class="overlay" id="codigo-qr-overlay" style="display: none;">
+        <div class="overlay-content">
+            <span class="close" id="close-qr" onclick="cerrarCodigoQR()">&times;</span>
+            <h2>Mi Código QR</h2>
+            <div id="codigo-qr-img"></div>
         </div>
     </div>
 </body>
