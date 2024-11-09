@@ -1,4 +1,3 @@
-// sistema_recompensas.js
 class Cliente {
     constructor(nombre) {
         this.nombre = nombre;
@@ -7,11 +6,20 @@ class Cliente {
         this.tarjeta = null;
     }
 
+    // Realizar una compra y acumular estrellas
     realizarCompra(monto) {
-        this.estrellas += monto; // 1 estrella por cada $1 gastado
-        this.verificarNivel();
+        const estrellasGanadas = monto; // 1 estrella por cada $1 gastado
+        this.estrellas += estrellasGanadas;
+
+        // Actualización del nivel según las estrellas acumuladas
+        if (this.estrellas >= 50 && this.nivel === "Verde") {
+            this.nivel = "Oro";
+        } else if (this.estrellas >= 100 && this.nivel === "Oro") {
+            this.nivel = "Platino";
+        }
     }
 
+    // Canjear recompensas con las estrellas acumuladas
     canjearRecompensa(cantidadPuntos) {
         if (this.estrellas >= cantidadPuntos) {
             this.estrellas -= cantidadPuntos;
@@ -20,15 +28,4 @@ class Cliente {
             return "No tienes suficientes puntos para esta recompensa";
         }
     }
-
-    verificarNivel() {
-        if (this.estrellas >= 50 && this.nivel === "Verde") {
-            this.nivel = "Oro";
-        } else if (this.estrellas >= 100 && this.nivel === "Oro") {
-            this.nivel = "Platino";
-        }
-    }
 }
-
-// Declarar una instancia de Cliente como ejemplo
-const usuario_ejemplo = new Cliente("NombreEjemplo");
