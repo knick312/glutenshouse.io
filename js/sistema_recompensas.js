@@ -68,43 +68,47 @@ function iniciarSesion() {
     const correo = document.getElementById("correo").value;
     const contrasena = document.getElementById("contrasena").value;
 
-    // Buscar el cliente registrado con ese correo
-    const cliente = clientesRegistrados.find(c => c.correo === correo && c.contrasena === contrasena);
+    // Buscar al cliente en el array de clientes registrados
+    clienteActual = clientesRegistrados.find(cliente => cliente.correo === correo && cliente.contrasena === contrasena);
 
-    if (cliente) {
-        alert(`Bienvenido, ${cliente.nombre}!`);
-        clienteActual = cliente;
+    if (clienteActual) {
+        alert("Inicio de sesión exitoso.");
         mostrarSistemaPuntos();
-        cerrarFormularios();
     } else {
         alert("Correo o contraseña incorrectos.");
     }
+
+    cerrarFormularios();
 }
 
 // Función para mostrar el sistema de puntos
 function mostrarSistemaPuntos() {
-    const sistemaPuntos = document.getElementById("sistema-puntos");
-    sistemaPuntos.style.display = "block";
+    document.getElementById("sistema-puntos").style.display = "flex";
+    document.getElementById("nombre-usuario-span").innerText = clienteActual.nombre;
+    document.getElementById("nivel-usuario-span").innerText = clienteActual.nivel;
+    document.getElementById("estrellas-usuario-span").innerText = clienteActual.estrellas;
 }
 
-// Función para mostrar QR
-function mostrarCodigoQR() {
-    const codigoQR = new QRCode(document.getElementById("codigo-qr-img"), {
-        text: `Nombre: ${clienteActual.nombre}\nNivel: ${clienteActual.nivel}\nEstrellas: ${clienteActual.estrellas}`,
-        width: 128,
-        height: 128,
-    });
-    document.getElementById("codigo-qr-overlay").style.display = "flex";
-}
-
-// Cerrar el overlay del QR
-function cerrarCodigoQR() {
-    document.getElementById("codigo-qr-overlay").style.display = "none";
-}
-
-// Evento para cerrar sesión
+// Función para cerrar sesión
 function cerrarSesion() {
     clienteActual = null;
     document.getElementById("sistema-puntos").style.display = "none";
     alert("Sesión cerrada.");
+}
+
+// Función para mostrar el código QR
+function mostrarCodigoQR() {
+    const qrContainer = document.getElementById("codigo-qr-img");
+    qrContainer.innerHTML = "";
+    new QRCode(qrContainer, {
+        text: `Cliente: ${clienteActual.nombre}, Puntos: ${clienteActual.estrellas}`,
+        width: 128,
+        height: 128
+    });
+    document.getElementById("codigo-qr-overlay").style.display = "flex";
+}
+
+// Función para cerrar el QR
+function cerrarCodigoQR() {
+    document.getElementById("codigo-qr-overlay").style.display = "none";
 }
